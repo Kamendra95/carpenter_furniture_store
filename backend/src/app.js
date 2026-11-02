@@ -26,8 +26,19 @@ app.use(helmet({
   contentSecurityPolicy: false
 }))
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://carpenter-furniture-store-6x3w.vercel.app'
+]
+
 app.use(cors({
-  origin: config.frontendUrl,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(null, true) // allow all origins in development
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

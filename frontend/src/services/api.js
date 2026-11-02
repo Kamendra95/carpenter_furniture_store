@@ -1,7 +1,12 @@
 import axios from 'axios'
 
+const isProduction = import.meta.env.MODE === 'production'
+const baseUrl = isProduction
+  ? import.meta.env.VITE_API_BASE_URL_PROD || 'https://carpenter-furniture-store.vercel.app/api'
+  : import.meta.env.VITE_API_BASE_URL || '/api'
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: baseUrl,
   withCredentials: true
 })
 
